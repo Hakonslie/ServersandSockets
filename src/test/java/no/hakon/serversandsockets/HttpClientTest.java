@@ -1,4 +1,4 @@
-package no.hakon.httpRequest;
+package no.hakon.serversandsockets;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -7,8 +7,8 @@ import java.io.IOException;
 
 import org.junit.Test;
 
-import no.hakon.httpRequest.HttpRequest;
-import no.hakon.httpRequest.HttpResponse;
+import no.hakon.serversandsockets.HttpRequest;
+import no.hakon.serversandsockets.HttpResponse;
 
 public class HttpClientTest {
 
@@ -33,11 +33,10 @@ public class HttpClientTest {
         HttpRequest request = new HttpRequest("urlecho.appspot.com",
                 "/echo?status=307&Location=http%3A%2F%2Fwww.google.com");
         HttpResponse response = request.execute();
-
         assertThat(response.getStatusCode()).isEqualTo(307);
-        assertThat(response.getHeader("Location")).isEqualTo("http://www.google.com");
-        
+        assertThat(response.getHeader("Location")).isEqualTo("http://www.google.com");    
     }
+    
     @Test
     public void shouldReadResponseFromSimilarHeaders() throws IOException {
         HttpRequest request = new HttpRequest("urlecho.appspot.com",
@@ -50,6 +49,7 @@ public class HttpClientTest {
         assertThat(response.getHeader("Location")).isEqualTo("http://www.google.com");
         assertThat(response.getHeader("Location")).isEqualTo("http://www.google.com");   
     }
+    
     @Test
     public void shouldReadResponseFromINVALIDHeaders() throws IOException {
         HttpRequest request = new HttpRequest("urlecho.appspot.com",
@@ -60,8 +60,8 @@ public class HttpClientTest {
         assertThat(response.getHeader("notaheader")).isEqualTo(null);
         assertThat(response.getHeader(null)).isEqualTo(null);
         assertThat(response.getHeader("")).isEqualTo(null);
- 
     }
+    
     @Test
     public void shouldReadBodyFromResponse() throws IOException {
     	HttpRequest request = new HttpRequest("urlecho.appspot.com", "/echo?status=200&body=hallohallo");

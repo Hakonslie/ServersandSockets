@@ -1,5 +1,4 @@
 package no.hakon.serversandsockets;
-
 import java.util.HashMap;
 
 public class HttpResponse {
@@ -19,31 +18,24 @@ public class HttpResponse {
 		String [] headerLineSplits;
 		String [] headerLines = response.split("\r\n");
 		
-		// For loops puts all headers in headers HashMap and when it reaches the end put body in String body
-		
-		for(int i = 0; i < headerLines.length ; i++) {	
-			
-			// Look for Json objects
-			if(headerLines[i].startsWith("{") && headers.get("Content-Type").startsWith("application/json")) {
-				body = headerLines[i];
-			}
+		// For loops puts all headers in headers HashMap
+
+		for(int i = 0; i < headerLines.length - 1; i++) {	
+
 			// If headerline is empty, skip one iteration
-			else if(headerLines[i].equals("")) continue;
+			if(headerLines[i].equals("")) continue;
 			
 			else {
 				// If header is valid and has key + value
 				if(headerLines[i].split(" ", 2).length > 1)
 				{
-				headerLineSplits = headerLines[i].split(" ", 2);
-				headers.put(headerLineSplits[0].replaceFirst(":", ""), headerLineSplits[1]);
-				}
-				// else put key with empty value
-				else {
-					headers.put(headerLines[i], "");
-				}
-			}
-
-		}	
+					headerLineSplits = headerLines[i].split(" ", 2);
+					headers.put(headerLineSplits[0].replaceFirst(":", ""), headerLineSplits[1]);
+				}	
+			}	
+		}
+		// Insert body at last
+			body = headerLines[headerLines.length - 1];
 	}
 	
 	
